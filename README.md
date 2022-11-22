@@ -58,7 +58,6 @@ void setup()
   pinMode(adc0Pin, INPUT);
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
-  pinMode(adc0Pin, INPUT);
   
   noInterrupts();  
   TCCR1A = 0;
