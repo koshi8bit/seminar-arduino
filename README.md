@@ -72,8 +72,9 @@ void setup()
 
 ISR(TIMER1_OVF_vect)
 {
-  TCNT1 = value;                                // preload timer
-  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);  //Turns LED ON and OFF
+  TCNT1 = value;                                   // Preload timer
+  digitalWrite(ledPin, !digitalRead(ledPin));      // Turns LED ON and OFF
+  //digitalWrite(ledPin, digitalRead(ledPin) ^ 1); // Turns LED ON and OFF
 }
 
 void loop()
