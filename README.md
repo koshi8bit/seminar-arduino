@@ -46,6 +46,27 @@ void loop() {
 }
 ```
 
+## 7 сегментный индикатор
+```c
+void setup()
+{
+  DDRB = 255;
+  // DDRB = 0b11111111;
+  // DDRB = 0xFF;
+  
+  
+}
+
+void loop()
+{ 
+  PORTB |= (1 << 5);
+  PORTB &= ~(1 << 5);
+  
+  PORTB ^= (1 << 5);
+}
+
+```
+
 ## Таймер и АЦП
 [Ликбез](https://habr.com/ru/post/453276/) по таймерам 
 [Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
