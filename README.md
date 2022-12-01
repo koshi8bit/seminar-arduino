@@ -1,5 +1,9 @@
 # seminar-arduino
 
+## ATMEGA328
+![ATMEGA328](img/atmega328.png)
+
+
 Дока на [гугл диске](https://docs.google.com/document/d/1E5u_tU_30d35mxYcNSVe8VHLDNzwZsriz4J4xWrx2XM/edit#heading=h.uh7x8owb0an)
 ## Лампочка и кнопка чепрез UART 
 ```c
