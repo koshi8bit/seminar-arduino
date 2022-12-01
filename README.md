@@ -46,25 +46,50 @@ void loop() {
 }
 ```
 
+## Битовые операции
+Примеры ниже в 100 раз быстрее функции digitalWrite из библиотеки ардуино 
+```c
+void setup() 
+{ 
+  DDRB |= (1<<5); // аналог pinMode(13, OUTPUT), только быстрый
+} 
+ 
+void loop() 
+{  
+  PORTB |= (1 << 5); // аналог digitalWrite(13, HIGH) 
+  delay(1000);
+  
+  PORTB &= ~(1 << 5); // аналог digitalWrite(13, LOW)
+  delay(1000); 
+  
+  //PORTB ^= (1 << 5); // аналог digitalWrite(13, !digitalRead(13)), только быстрее в 200 раз
+}
+```
+
 ## 7 сегментный индикатор
 ```c
-void setup()
-{
-  DDRB = 255;
-  // DDRB = 0b11111111;
-  // DDRB = 0xFF;
-  
-  
-}
-
-void loop()
+#define LED_NUMBER_LEN = 4
+int ledNumber[] = { 
+    0b00111111, 
+    0b00000110, 
+    0b01011011, 
+    0b01001111 
+  }; 
+ 
+int i=0; 
+ 
+void setup() 
 { 
-  PORTB |= (1 << 5);
-  PORTB &= ~(1 << 5);
-  
-  PORTB ^= (1 << 5);
+   DDRD = 0xFF; // аналог DDRD = 0b11111111, но короче
+} 
+ 
+void loop() 
+{ 
+  int isDotOn = i / LED_NUMBER_LEN;
+  PORTD = ledNumber[i] | (isDotOn << 7); 
+  i = (i+1) % LED_NUMBER_LEN; 
+  delay(1000); 
 }
-
 ```
 
 ## Таймер и АЦП
