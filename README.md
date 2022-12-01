@@ -1,6 +1,6 @@
 # seminar-arduino
 
-## ATMEGA328
+## Распиновка ATMEGA328
 ![ATMEGA328](img/atmega328.png)
 
 

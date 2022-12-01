@@ -3,7 +3,7 @@
 ## 04
 1) описать биты на каждую цифру 7 сегм. Индикаторе
 2) собрать схему PB0 - A; PB1 - B итд
-3) посмотреть видосики [1](https://www.youtube.com/watch?v=8qwEJof95To) [2](https://www.youtube.com/watch?v=YLv9jyzebPc)
+3) посмотреть видосики [раз](https://www.youtube.com/watch?v=8qwEJof95To) [два](https://www.youtube.com/watch?v=YLv9jyzebPc)
 4) взять повер банк
 
 ## 05
