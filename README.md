@@ -72,7 +72,7 @@ void loop()
 
 ## 7 сегментный индикатор
 ```c
-#define LED_NUMBER_LEN = 10
+#define LED_NUMBER_COUNT = 10
 int ledNumber[] = { 
     0b00111111,
     0b00000110,
@@ -95,9 +95,9 @@ void setup()
  
 void loop() 
 { 
-  int isDotOn = i / LED_NUMBER_LEN;
+  int isDotOn = i % 2;
   PORTD = ledNumber[i] | (isDotOn << 7); 
-  i = (i+1) % LED_NUMBER_LEN; 
+  i = (i+1) % LED_NUMBER_COUNT; 
   delay(1000); 
 }
 ```
