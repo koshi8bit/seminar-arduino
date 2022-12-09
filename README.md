@@ -32,6 +32,30 @@ void loop() {
 }
 
 ```
+## Прерывание по кнопке
+```c
+volatile int counter = 0;  // переменная-счётчик
+
+void setup() {
+  Serial.begin(9600); // открыли порт для связи
+
+  // подключили кнопку на D2 и GND
+  pinMode(2, INPUT_PULLUP);
+
+  // FALLING - при нажатии на кнопку будет сигнал 0, его и ловим
+  attachInterrupt(0, btnIsr, FALLING);
+}
+
+void btnIsr() {
+  counter++;  // + нажатие
+}
+
+void loop() {
+  Serial.println(counter);  // выводим
+  delay(1000);              // ждём
+}
+```
+
 
 ## АЦП
 ```c
@@ -138,6 +162,75 @@ void loop()
 ISR(TIMER1_COMPA_vect)
 {
     digitalWrite(LEDPIN, !digitalRead(LEDPIN));
+}
+```
+
+## Опрос датчика каждые 10 сек
+```c
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#define LEDPIN 13
+#define BTN_PIN 2 // INT0
+
+volatile byte seconds = 0;
+volatile boolean canReadSensor = false;
+
+volatile int counter = 0;
+
+void setup()
+{
+    pinMode(LEDPIN, OUTPUT);
+    pinMode(BTN_PIN, INPUT_PULLUP);
+    attachInterrupt(0, btnIsr, FALLING);
+    Serial.begin(9600);
+
+
+    // инициализация Timer1
+    cli();  // отключить глобальные прерывания
+    TCCR1A = 0;   // установить регистры в 0
+    TCCR1B = 0;
+
+    OCR1A = 15624; // установка регистра совпадения
+
+    TCCR1B |= (1 << WGM12);  // включить CTC режим 
+    TCCR1B |= (1 << CS10); // Установить биты на коэффициент деления 1024
+    TCCR1B |= (1 << CS12);
+
+    TIMSK1 |= (1 << OCIE1A);  // включить прерывание по совпадению таймера 
+    sei(); // включить глобальные прерывания
+    
+}
+
+void btnIsr() {
+  counter++;
+}
+
+void readSensor()
+{
+  digitalWrite(LEDPIN, HIGH);
+  delay(1000);
+  digitalWrite(LEDPIN, LOW);
+}
+
+void loop()
+{
+    if (canReadSensor) {
+      readSensor();             // OK
+    }
+    
+    Serial.println(counter); 
+    delay(200);  
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+    seconds++;
+    if(seconds >= 10)
+    {
+        seconds = 0;
+        canReadSensor = true;
+        // readSensor();          // NO OK
+    }
 }
 ```
 
