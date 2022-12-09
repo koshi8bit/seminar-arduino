@@ -102,9 +102,46 @@ void loop()
 }
 ```
 
-## Таймер и АЦП
+## Прерывание таймера (1 сек)
 [Ликбез](https://habr.com/ru/post/453276/) по таймерам 
+
 [Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
+```c
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#define LEDPIN 13
+
+void setup()
+{
+    pinMode(LEDPIN, OUTPUT);
+
+    // инициализация Timer1
+    cli();  // отключить глобальные прерывания
+    TCCR1A = 0;   // установить регистры в 0
+    TCCR1B = 0;
+
+    OCR1A = 15624; // установка регистра совпадения
+
+    TCCR1B |= (1 << WGM12);  // включить CTC режим 
+    TCCR1B |= (1 << CS10); // Установить биты на коэффициент деления 1024
+    TCCR1B |= (1 << CS12);
+
+    TIMSK1 |= (1 << OCIE1A);  // включить прерывание по совпадению таймера 
+    sei(); // включить глобальные прерывания
+}
+
+void loop()
+{
+    // основная программа
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+    digitalWrite(LEDPIN, !digitalRead(LEDPIN));
+}
+```
+
+## Таймер и АЦП
 ```c
 #define ledPin 7
 #define adc0Pin A0
